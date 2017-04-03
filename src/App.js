@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getApiKey } from './ApiKey'
 import './App.css';
+import * as d3 from "d3";
 
 class App extends Component {
   render() {
