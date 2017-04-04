@@ -3,18 +3,53 @@ import { getApiKey } from './ApiKey'
 import './App.css';
 import * as d3 from "d3";
 
+
+
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      result: null,
+    }
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div> 
+        <CompanyButton/>
+        <Graph/>
+        <Info/>
       </div>
+    );
+  }
+}
+
+class CompanyButton extends Component {
+  render() {
+    return (
+      <button
+        type="button"
+      >
+        Facebook
+      </button>
+    );
+  }
+}
+
+class Graph extends Component {
+  render() {
+    return (
+      <div> GRAPH </div>
+    );
+  }
+}
+
+class Info extends Component {
+  render() {
+    return (
+      <div> INFO </div>
     );
   }
 }
