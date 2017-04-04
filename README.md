@@ -16,7 +16,7 @@ $ npm install
 $ npm start
 ```
 
-Also you have to add ApiKey.js to the src folder and add a valid api key, format:
+Also you have to add ApiKey.json to the data folder and add a valid api key, format:
 
 ```javascript
 const getApiKey = () => { return 'INSERT_API_KEY_HERE' }

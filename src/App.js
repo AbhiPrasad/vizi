@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { getApiKey } from './ApiKey'
 import './App.css';
 import * as d3 from "d3";
 
-
+var json = require("../data/apikey.json");
 
 class App extends Component {
 
