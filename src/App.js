@@ -59,12 +59,12 @@ class App extends Component {
     console.log(data);
     return (
       <div>
-        <CompanyButton 
+        <CompanyButton
           onClick={() => this.apiCall()}
         >
           Google
         </CompanyButton>
-        <Graph 
+        <Graph
           data={data}
         />
         <Info />
@@ -73,28 +73,21 @@ class App extends Component {
   }
 }
 
-class CompanyButton extends Component {
-  render() {
-    const { onClick, children } = this.props;
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-      >
-        {children}
-      </button>
-    );
-  }
+const CompanyButton = ({ onClick, children }) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 }
 
-class Graph extends Component {
-  render() {
-    const { data } = this.props;
-
-    return (
-      <div> GRAPH </div>
-    );
-  }
+const Graph = ({ data }) => {
+  return (
+    <div> GRAPH </div>
+  );
 }
 
 class Info extends Component {
