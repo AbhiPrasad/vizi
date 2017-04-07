@@ -133,16 +133,13 @@ const CompanyButton = ({ onClick, children }) => {
 const Graph = ({ dataset }) => {
   const margin = { top: 30, right: 20, bottom: 30, left: 50 };
   const width = 600 - margin.left - margin.right;
-  const height = 270 - margin.top - margin.bottom;
+  const height = 500 - margin.top - margin.bottom;
 
   const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
   const formatDate = d3.timeFormat("%d-%b-%y");
 
-  const x = d3.scaleTime()
-    .rangeRound([0, width]);
-  
-  const y = d3.scaleLinear()
-    .rangeRound([height, 0]);
+  const x = d3.scaleTime().range([0, width]);
+  const y = d3.scaleLinear().range([height, 0]);
 
   const data = dataset.map(function (d) {
     return {
@@ -151,7 +148,7 @@ const Graph = ({ dataset }) => {
     }
   });
 
-  const line = d3.line()
+  const valueline = d3.line()
     .x(function(d) {
       return x(d.date);
     })
@@ -166,6 +163,7 @@ const Graph = ({ dataset }) => {
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   data.forEach(function(d) {
+    d.date = new Date(d.date);
     d.close = +d.close;
   });   
   
@@ -180,6 +178,13 @@ const Graph = ({ dataset }) => {
     .data([data])
     .attr("class", "line")
     .attr("d", valueline);
+
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  svg.append("g")
+    .call(d3.axisLeft(y));
 
   return (
     <div className="graph" > GRAPH </div>
