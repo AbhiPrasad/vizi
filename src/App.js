@@ -64,7 +64,7 @@ const EXAMPLE_DATA = [
   ]
 ];
 
-const DEFAULT_COMPANY = 'GOOG';
+const DEFAULT_COMPANY = 'FB';
 
 class App extends Component {
 
@@ -72,7 +72,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      dataset: EXAMPLE_DATA, //first column is date, second column is close
+      result: null, //first column is date, second column is close
       apiKey: json.apiKey,
       column: '4',
       start_date: '2014-01-01',
@@ -86,7 +86,7 @@ class App extends Component {
     this.setResult = this.setResult.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.apiCall();
   }
 
@@ -99,22 +99,38 @@ class App extends Component {
   }
 
   setResult(result) {
+    console.log(result);
     this.setState({
-      dataset: result.dataset.data,
+      result: this.formatDataset(result.dataset.data),
     });
   }
 
+  formatDataset(dataset) {
+    const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
+    const formatDate = d3.timeFormat("%Y%m%d");
+
+    const close = ["close"];
+    const date = ["date"];
+
+    dataset.forEach((d) => {
+      date.push(parseDate(d[0]));
+      close.push(d[1]);
+    });
+
+    return { close, date };
+  }
+
   render() {
-    const { dataset } = this.state;
+    const { result } = this.state;
     return (
       <div>
         <CompanyButton
           onClick={() => this.apiCall()}
         >
-          Google
+          Facebook
         </CompanyButton>
         <Graph
-          dataset={dataset}
+          result={result}
         />
         <Info />
       </div>
@@ -133,37 +149,46 @@ const CompanyButton = ({ onClick, children }) => {
   );
 }
 
-const Graph = ({ dataset }) => {
-  const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
-  const formatDate = d3.timeFormat("%Y%m%d");
+class Graph extends Component {
 
-  const close = ["close"]; 
-  const date = ["date"];
-  
-  dataset.map(d => {
-    date.push(parseDate(d[0]));
-    close.push(d[1]);
-  });
+  constructor(props) {
+    super(props)
 
-    const chart = c3.generate({
-      bindto: '#root',
-      data: {
-        x: 'date',
-        columns: [
-          date, 
-          close
-        ]
-      },
-      axis: {
-        x : {
-          type: 'timeseries'
+    this.renderChart = this.renderChart.bind(this);
+  }
+
+  componentDidMount() {
+    this.renderChart();
+  }
+
+  renderChart() {
+    const { result } = this.props;
+    if (result !== null) {
+      const chart = c3.generate({
+        bindto: '#graph',
+        data: {
+          x: 'date',
+          columns: [
+            result.date,
+            result.close
+          ]
+        },
+        axis: {
+          x: {
+            type: 'timeseries'
+          }
         }
-      }
-    });
-
-  return (
-    <div className="graph" > GRAPH </div>
-  );
+      });
+    }
+  }
+// http://stackoverflow.com/questions/30018487/updating-c3-charts-on-props-change-with-react
+// Gotta fix
+  render() {
+    console.log(this.props.result);
+    return (
+      <div id="graph"></div>
+    );
+  }
 }
 
 class Info extends Component {
