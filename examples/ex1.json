@@ -1,13 +1,13 @@
 {
     "dataset": {
-        "id": 9775687,
-        "dataset_code": "FB",
+        "id": 9775718,
+        "dataset_code": "GOOG",
         "database_code": "WIKI",
-        "name": "Facebook Inc. (FB) Prices, Dividends, Splits and Trading Volume",
-        "description": "End of day open, high, low, close and volume, dividends and splits, and split/dividend adjusted open, high, low close and volume for Facebook, Inc. (FB). Ex-Dividend is non-zero on ex-dividend dates. Split Ratio is 1 on non-split dates. Adjusted prices are calculated per CRSP (www.crsp.com/products/documentation/crsp-calculations)\n\nThis data is in the public domain. You may copy, distribute, disseminate or include the data in other products for commercial and/or noncommercial purposes.\n\nThis data is part of Quandl's Wiki initiative to get financial data permanently into the public domain. Quandl relies on users like you to flag errors and provide data where data is wrong or missing. Get involved: connect@quandl.com\n",
-        "refreshed_at": "2017-04-05T21:49:02.606Z",
-        "newest_available_date": "2017-04-05",
-        "oldest_available_date": "2012-05-18",
+        "name": "Alphabet Inc (GOOG) Prices, Dividends, Splits and Trading Volume",
+        "description": "End of day open, high, low, close and volume, dividends and splits, and split/dividend adjusted open, high, low close and volume for Google Inc. (GOOG). Ex-Dividend is non-zero on ex-dividend dates. Split Ratio is 1 on non-split dates. Adjusted prices are calculated per CRSP (www.crsp.com/products/documentation/crsp-calculations)\n\nThis data is in the public domain. You may copy, distribute, disseminate or include the data in other products for commercial and/or noncommercial purposes.\n\nThis data is part of Quandl's Wiki initiative to get financial data permanently into the public domain. Quandl relies on users like you to flag errors and provide data where data is wrong or missing. Get involved: connect@quandl.com\n",
+        "refreshed_at": "2017-04-06T21:48:20.566Z",
+        "newest_available_date": "2017-04-06",
+        "oldest_available_date": "2014-03-27",
         "column_names": [
             "Date",
             "Close"
@@ -16,54 +16,50 @@
         "type": "Time Series",
         "premium": false,
         "limit": null,
-        "transform": "rdiff",
+        "transform": null,
         "column_index": 4,
-        "start_date": "2014-01-01",
+        "start_date": "2014-03-27",
         "end_date": "2014-12-31",
         "data": [
             [
                 "2014-12-31",
-                0.004118404118404
+                526.4
             ],
             [
                 "2014-11-30",
-                0.036138151753567
+                541.83
             ],
             [
                 "2014-10-31",
-                -0.05123987854251
+                559.08
             ],
             [
                 "2014-09-30",
-                0.056402031542369
+                577.36
             ],
             [
                 "2014-08-31",
-                0.029869236063317
+                571.6
             ],
             [
                 "2014-07-31",
-                0.07965522365879
+                571.6
             ],
             [
                 "2014-06-30",
-                0.06303317535545
+                575.28
             ],
             [
                 "2014-05-31",
-                0.058882569421211
+                559.89
             ],
             [
                 "2014-04-30",
-                -0.0076361221779549
+                526.66
             ],
             [
                 "2014-03-31",
-                -0.12007011393514
-            ],
-            [
-                "2014-02-28",
-                0.094134569282404
+                556.97
             ]
         ],
         "collapse": "monthly",
@@ -71,6 +67,3 @@
         "database_id": 4922
     }
 }
-
-//sample link
-// https://www.quandl.com/api/v3/datasets/WIKI/FB.json?column_index=4&start_date=2014-01-01&end_date=2014-12-31&collapse=monthly&transform=rdiff&api_key=API_KEY HERE

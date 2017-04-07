@@ -93,12 +93,14 @@ class App extends Component {
   apiCall() {
     const { apiKey, column, start_date, end_date, collapse, transform, dataset_code } = this.state
     const url = `${URL_BASE}${DATABASE_CODE}/${dataset_code}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
+    console.log(url);
     fetch(url)
       .then(response => response.json())
       .then(result => this.setResult(result));
   }
 
   setResult(result) {
+    console.log(result);
     this.setState({
       dataset: result.dataset.data,
     });
@@ -134,15 +136,8 @@ const CompanyButton = ({ onClick, children }) => {
 }
 
 const Graph = ({ dataset }) => {
-  const margin = { top: 30, right: 20, bottom: 30, left: 50 };
-  const width = 600 - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
-
   const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
   const formatDate = d3.timeFormat("%d-%b-%y");
-
-  const x = d3.scaleTime().range([0, width]);
-  const y = d3.scaleLinear().range([height, 0]);
 
   const data = dataset.map(function (d) {
     return {
@@ -151,44 +146,18 @@ const Graph = ({ dataset }) => {
     }
   });
 
-  const valueline = d3.line()
-    .x(function(d) {
-      return x(d.date);
-    })
-    .y(function(d) {
-      return y(d.close)
+  console.log(data[1]);
+/*
+    var chart = c3.generate({
+      bindto: '#root',
+      data: {
+        x: 'x',
+        columns: [
+          ['data1', 30, 200, 100, 400, 150, 250],
+        ]
+      }
     });
-
-  const svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  data.forEach(function(d) {
-    d.date = new Date(d.date);
-    d.close = +d.close;
-  });   
-  
-  x.domain(d3.extent(data, function(d) {
-    return d.date;
-  }));
-  y.domain([0, d3.max(data, function(d) {
-    return d.close;
-  })]);
-
-  svg.append("path")
-    .data([data])
-    .attr("class", "line")
-    .attr("d", valueline);
-
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
-
-  svg.append("g")
-    .call(d3.axisLeft(y));
-
+*/
   return (
     <div className="graph" > GRAPH </div>
   );
