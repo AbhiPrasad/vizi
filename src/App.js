@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import '../bower_components/c3/c3.min.css';
+
 import * as d3 from "d3";
+import * as c3 from "c3";
 
 const json = require("../data/apiKey.json");
 

@@ -18,3 +18,5 @@ yarn-error.log*
 
 # api key
 data/apikey.json
+
+bower_components

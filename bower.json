@@ -1,0 +1,21 @@
+{
+  "name": "vizi",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Abhijeet Prasad <abhijeetprasad98@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/AbhiPrasad/vizi",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "c3": "^0.4.11"
+  }
+}
