@@ -93,14 +93,12 @@ class App extends Component {
   apiCall() {
     const { apiKey, column, start_date, end_date, collapse, transform, dataset_code } = this.state
     const url = `${URL_BASE}${DATABASE_CODE}/${dataset_code}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
-    console.log(url);
     fetch(url)
       .then(response => response.json())
       .then(result => this.setResult(result));
   }
 
   setResult(result) {
-    console.log(result);
     this.setState({
       dataset: result.dataset.data,
     });
@@ -137,27 +135,32 @@ const CompanyButton = ({ onClick, children }) => {
 
 const Graph = ({ dataset }) => {
   const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
-  const formatDate = d3.timeFormat("%d-%b-%y");
+  const formatDate = d3.timeFormat("%Y%m%d");
 
-  const data = dataset.map(function (d) {
-    return {
-      date: formatDate(parseDate(d[0])),
-      close: d[1]
-    }
+  const close = ["close"]; 
+  const date = ["date"];
+  
+  dataset.map(d => {
+    date.push(parseDate(d[0]));
+    close.push(d[1]);
   });
 
-  console.log(data[1]);
-/*
-    var chart = c3.generate({
+    const chart = c3.generate({
       bindto: '#root',
       data: {
-        x: 'x',
+        x: 'date',
         columns: [
-          ['data1', 30, 200, 100, 400, 150, 250],
+          date, 
+          close
         ]
+      },
+      axis: {
+        x : {
+          type: 'timeseries'
+        }
       }
     });
-*/
+
   return (
     <div className="graph" > GRAPH </div>
   );
