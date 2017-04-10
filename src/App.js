@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
 import '../bower_components/c3/c3.min.css';
 import C3Chart from 'react-c3js';
-import { Button } from 'reactstrap';
+import {
+  Card, CardImg, CardText, CardBlock,
+  CardTitle, CardSubtitle, Button
+} from 'reactstrap';
 
 import * as d3 from "d3";
 import * as c3 from "c3";
@@ -152,7 +154,17 @@ const Graph = ({ data, axis }) => {
 class Info extends Component {
   render() {
     return (
-      <div> INFO </div>
+      <div>
+        <Card>
+          <CardImg top src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
+          <CardBlock>
+            <CardTitle>Card title</CardTitle>
+            <CardSubtitle>Card subtitle</CardSubtitle>
+            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+            <Button>Button</Button>
+          </CardBlock>
+        </Card>
+      </div>
     );
   }
 }
