@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import '../bower_components/c3/c3.min.css';
-import C3Chart from 'react-c3js';
-import {
-  Card, CardImg, CardText, CardBlock,
-  CardTitle, CardSubtitle, Button
-} from 'reactstrap';
+
+import CompanyButton from './CompanyButton/CompanyButton';
+import Graph from './Graph/Graph';
+import Info from './Info/Info';
 
 import * as d3 from "d3";
-import * as c3 from "c3";
 
 const json = require("../data/apiKey.json");
+const companies = require("../data/Companies.json");
 
 const URL_BASE = 'https://www.quandl.com/api/v3/datasets/';
 const DATABASE_CODE = 'WIKI';
@@ -21,14 +19,16 @@ const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
 
+const NAME_URL = 'http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?';
+const NAME_INPUT = 'input';
+const NAME_CALLBACK = 'callback';
+
 class App extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      //data: null, //first column is date, second column is close
-      //axis: null,
       apiKey: json.apiKey,
       column: '4',
       start_date: '2014-01-01',
@@ -37,20 +37,42 @@ class App extends Component {
       transform: 'none',
     }
 
-    this.apiCall = this.apiCall.bind(this);
+    this.stockApiCall = this.stockApiCall.bind(this);
     this.setResult = this.setResult.bind(this);
+    this.apiCalls = this.apiCalls.bind(this);
   }
 
   componentWillMount() {
-    this.apiCall();
+    this.apiCalls();
   }
 
-  apiCall(company = 'GOOG') {
+  cardApiCall(company) {
+    const url = `${NAME_URL}${NAME_INPUT}=${company}&${NAME_CALLBACK}=lookup&origin=*`;
+    console.log(url);
+    fetch(url)
+      .then(response => response.json())
+      .then(result => this.setCardResult(result));
+  }
+
+  setCardResult(result) {
+    console.log(result);
+    this.setState({
+
+    });
+  }
+
+  stockApiCall(company) {
     const { apiKey, column, start_date, end_date, collapse, transform } = this.state
     const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
+    console.log(url);
     fetch(url)
       .then(response => response.json())
       .then(result => this.setResult(result));
+  }
+
+  apiCalls(company = 'GOOGL') {
+    this.stockApiCall(company);
+    //this.cardApiCall(company);
   }
 
   setData(date, close) {
@@ -107,17 +129,17 @@ class App extends Component {
     return (
       <div>
         <CompanyButton
-          onClick={() => this.apiCall('FB')}
+          onClick={() => this.apiCalls('FB')}
         >
           Facebook
         </CompanyButton>
         <CompanyButton
-          onClick={() => this.apiCall('GOOG')}
+          onClick={() => this.apiCalls('GOOGL')}
         >
           Google
         </CompanyButton>
         <CompanyButton
-          onClick={() => this.apiCall('AMZN')}
+          onClick={() => this.apiCalls('AMZN')}
         >
           Amazon
         </CompanyButton>
@@ -126,44 +148,6 @@ class App extends Component {
           axis={axis}
         />
         <Info />
-      </div>
-    );
-  }
-}
-
-const CompanyButton = ({ onClick, children }) => {
-  return (
-    <Button
-      type="button"
-      onClick={onClick}
-      color="primary"
-    >
-      {children}
-    </Button>
-  );
-}
-
-const Graph = ({ data, axis }) => {
-  return (
-    <div className="graph">
-      <C3Chart data={data} axis={axis}> </C3Chart>
-    </div>
-  );
-}
-
-class Info extends Component {
-  render() {
-    return (
-      <div>
-        <Card>
-          <CardImg top src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
-          <CardBlock>
-            <CardTitle>Card title</CardTitle>
-            <CardSubtitle>Card subtitle</CardSubtitle>
-            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-            <Button>Button</Button>
-          </CardBlock>
-        </Card>
       </div>
     );
   }
