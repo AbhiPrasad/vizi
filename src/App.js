@@ -112,7 +112,17 @@ class App extends Component {
   setAxis() {
     return {
       x: {
-        type: 'timeseries'
+        type: 'timeseries',
+        label: {
+          text: 'Time',
+          position: 'outer-center'
+        }
+      },
+      y: {
+        label: {
+          text: 'Close',
+          position: 'outer-middle'
+        }
       }
     }
   }
