@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import '../bower_components/c3/c3.min.css';
+import C3Chart from 'react-c3js';
 
 import * as d3 from "d3";
 import * as c3 from "c3";
@@ -72,14 +73,14 @@ class App extends Component {
     super(props);
 
     this.state = {
-      result: null, //first column is date, second column is close
+      data: null, //first column is date, second column is close
+      axis: null,
       apiKey: json.apiKey,
       column: '4',
       start_date: '2014-01-01',
       end_date: '2014-12-31',
       collapse: 'monthly',
       transform: 'none',
-      dataset_code: DEFAULT_COMPANY,
     }
 
     this.apiCall = this.apiCall.bind(this);
@@ -90,18 +91,36 @@ class App extends Component {
     this.apiCall();
   }
 
-  apiCall() {
-    const { apiKey, column, start_date, end_date, collapse, transform, dataset_code } = this.state
-    const url = `${URL_BASE}${DATABASE_CODE}/${dataset_code}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
+  apiCall(company = 'GOOG') {
+    const { apiKey, column, start_date, end_date, collapse, transform } = this.state
+    const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
     fetch(url)
       .then(response => response.json())
       .then(result => this.setResult(result));
   }
 
+  setData(date, close) {
+    return {
+      x: 'date',
+      columns: [
+        date,
+        close
+      ]
+    }
+  }
+
+  setAxis() {
+    return {
+      x: {
+        type: 'timeseries'
+      }
+    }
+  }
+
   setResult(result) {
-    console.log(result);
     this.setState({
-      result: this.formatDataset(result.dataset.data),
+      data: this.formatDataset(result.dataset.data),
+      axis: this.setAxis(),
     });
   }
 
@@ -117,20 +136,21 @@ class App extends Component {
       close.push(d[1]);
     });
 
-    return { close, date };
+    return this.setData(date, close);
   }
 
   render() {
-    const { result } = this.state;
+    const { data, axis } = this.state;
     return (
       <div>
         <CompanyButton
-          onClick={() => this.apiCall()}
+          onClick={() => this.apiCall('FB')}
         >
           Facebook
         </CompanyButton>
         <Graph
-          result={result}
+          data={data}
+          axis={axis}
         />
         <Info />
       </div>
@@ -149,46 +169,12 @@ const CompanyButton = ({ onClick, children }) => {
   );
 }
 
-class Graph extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.renderChart = this.renderChart.bind(this);
-  }
-
-  componentDidMount() {
-    this.renderChart();
-  }
-
-  renderChart() {
-    const { result } = this.props;
-    if (result !== null) {
-      const chart = c3.generate({
-        bindto: '#graph',
-        data: {
-          x: 'date',
-          columns: [
-            result.date,
-            result.close
-          ]
-        },
-        axis: {
-          x: {
-            type: 'timeseries'
-          }
-        }
-      });
-    }
-  }
-// http://stackoverflow.com/questions/30018487/updating-c3-charts-on-props-change-with-react
-// Gotta fix
-  render() {
-    console.log(this.props.result);
-    return (
-      <div id="graph"></div>
-    );
-  }
+const Graph = ({ data, axis }) => {
+  return (
+    <div className="graph">
+      <C3Chart data={data} axis={axis}> </C3Chart>
+    </div>
+  );
 }
 
 class Info extends Component {

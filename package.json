@@ -6,8 +6,9 @@
     "c3": "^0.4.11",
     "d3": "^4.7.4",
     "moment": "^2.18.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "^15.5.3",
+    "react-c3js": "^0.1.18",
+    "react-dom": "^15.5.3"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
