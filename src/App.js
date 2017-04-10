@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import '../bower_components/c3/c3.min.css';
 import C3Chart from 'react-c3js';
+import { Button } from 'reactstrap';
 
 import * as d3 from "d3";
 import * as c3 from "c3";
@@ -18,63 +19,14 @@ const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
 
-const EXAMPLE_DATA = [
-  [
-    "2014-12-31",
-    0.004118404118404
-  ],
-  [
-    "2014-11-30",
-    0.036138151753567
-  ],
-  [
-    "2014-10-31",
-    -0.05123987854251
-  ],
-  [
-    "2014-09-30",
-    0.056402031542369
-  ],
-  [
-    "2014-08-31",
-    0.029869236063317
-  ],
-  [
-    "2014-07-31",
-    0.07965522365879
-  ],
-  [
-    "2014-06-30",
-    0.06303317535545
-  ],
-  [
-    "2014-05-31",
-    0.058882569421211
-  ],
-  [
-    "2014-04-30",
-    -0.0076361221779549
-  ],
-  [
-    "2014-03-31",
-    -0.12007011393514
-  ],
-  [
-    "2014-02-28",
-    0.094134569282404
-  ]
-];
-
-const DEFAULT_COMPANY = 'FB';
-
 class App extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      data: null, //first column is date, second column is close
-      axis: null,
+      //data: null, //first column is date, second column is close
+      //axis: null,
       apiKey: json.apiKey,
       column: '4',
       start_date: '2014-01-01',
@@ -136,7 +88,6 @@ class App extends Component {
 
   formatDataset(dataset) {
     const parseDate = d3.timeParse("%Y-%m-%d"); //.parse //ex - 2014-01-01
-    const formatDate = d3.timeFormat("%Y%m%d");
 
     const close = ["close"];
     const date = ["date"];
@@ -158,6 +109,16 @@ class App extends Component {
         >
           Facebook
         </CompanyButton>
+        <CompanyButton
+          onClick={() => this.apiCall('GOOG')}
+        >
+          Google
+        </CompanyButton>
+        <CompanyButton
+          onClick={() => this.apiCall('AMZN')}
+        >
+          Amazon
+        </CompanyButton>
         <Graph
           data={data}
           axis={axis}
@@ -170,12 +131,13 @@ class App extends Component {
 
 const CompanyButton = ({ onClick, children }) => {
   return (
-    <button
+    <Button
       type="button"
       onClick={onClick}
+      color="primary"
     >
       {children}
-    </button>
+    </Button>
   );
 }
 
