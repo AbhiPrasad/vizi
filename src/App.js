@@ -9,8 +9,6 @@ import * as d3 from "d3";
 
 const json = require("../data/apiKey.json");
 
-const companies = require("../data/Companies.json");
-
 const URL_BASE = 'https://www.quandl.com/api/v3/datasets/';
 const DATABASE_CODE = 'WIKI';
 const DATA_FORMAT = 'json';
@@ -26,11 +24,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const company_codes = [];
-    for (let x in companies) {
-      company_codes.push(companies[x]['Code']);
-    }
-
     this.state = {
       apiKey: json.apiKey,
       column: '4',
@@ -38,8 +31,6 @@ class App extends Component {
       end_date: '2014-12-31',
       collapse: 'monthly',
       transform: 'none',
-      companies,
-      company_codes,
     }
 
     this.stockApiCall = this.stockApiCall.bind(this);
