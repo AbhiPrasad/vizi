@@ -1,6 +1,7 @@
-/*
 import React, { Component } from 'react';
 import Autocomplete from 'react-autocomplete';
+
+const companies = require("../../data/ex2.json");
 
 class SearchBar extends Component {
   constructor(props) {
@@ -13,27 +14,17 @@ class SearchBar extends Component {
     }
   }
 
+  getCompanies () {
+    console.log(companies);
+  }
+
   render() {
     return (
       <div> 
         <label htmlFor="company-autocomplete">Choose a company</label>
-        <Autocomplete
-          inputProps={{name: "Company", id:"company-autocomplete"}}
-          ref="autocomplete"
-          value={this.state.value}
-          getItemValue={(item) => item.name}
-          onSelect={(value, item) => {
-            this.setState({ value, list: [ item ] })
-          }}
-          /*
-          onChange={(event, value) => {
-            this.setState({ value, loading: true })
-
-          }}
-
-        />
       </div>
     );
   }
 }
-*/
+
+export default SearchBar;

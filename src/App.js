@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import CompanyButton from './CompanyButton/CompanyButton';
 import Graph from './Graph/Graph';
 import Info from './Info/Info';
+import SearchBar from './SearchBar/SearchBar';
 
 import * as d3 from "d3";
 
 const json = require("../data/apiKey.json");
+
 const companies = require("../data/Companies.json");
 
 const URL_BASE = 'https://www.quandl.com/api/v3/datasets/';
@@ -19,14 +21,15 @@ const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
 
-const NAME_URL = 'http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?';
-const NAME_INPUT = 'input';
-const NAME_CALLBACK = 'callback';
-
 class App extends Component {
 
   constructor(props) {
     super(props);
+
+    const company_codes = [];
+    for (let x in companies) {
+      company_codes.push(companies[x]['Code']);
+    }
 
     this.state = {
       apiKey: json.apiKey,
@@ -35,6 +38,8 @@ class App extends Component {
       end_date: '2014-12-31',
       collapse: 'monthly',
       transform: 'none',
+      companies,
+      company_codes,
     }
 
     this.stockApiCall = this.stockApiCall.bind(this);
@@ -44,21 +49,6 @@ class App extends Component {
 
   componentWillMount() {
     this.apiCalls();
-  }
-
-  cardApiCall(company) {
-    const url = `${NAME_URL}${NAME_INPUT}=${company}&${NAME_CALLBACK}=lookup&origin=*`;
-    console.log(url);
-    fetch(url)
-      .then(response => response.json())
-      .then(result => this.setCardResult(result));
-  }
-
-  setCardResult(result) {
-    console.log(result);
-    this.setState({
-
-    });
   }
 
   stockApiCall(company) {
@@ -72,7 +62,6 @@ class App extends Component {
 
   apiCalls(company = 'GOOGL') {
     this.stockApiCall(company);
-    //this.cardApiCall(company);
   }
 
   setData(date, close) {
@@ -128,6 +117,7 @@ class App extends Component {
     const { data, axis } = this.state;
     return (
       <div>
+        <SearchBar/>
         <CompanyButton
           onClick={() => this.apiCalls('FB')}
         >
