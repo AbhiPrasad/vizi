@@ -31,11 +31,13 @@ class App extends Component {
       end_date: '2014-12-31',
       collapse: 'monthly',
       transform: 'none',
+      company_name: '',
     }
 
     this.stockApiCall = this.stockApiCall.bind(this);
     this.setResult = this.setResult.bind(this);
     this.apiCalls = this.apiCalls.bind(this);
+    this.setCompanyName = this.setCompanyName.bind(this);
   }
 
   componentWillMount() {
@@ -63,6 +65,12 @@ class App extends Component {
         close
       ]
     }
+  }
+
+  setCompanyName(name) {
+    this.setState({
+      company_name: name
+    });
   }
 
   setAxis() {
@@ -108,21 +116,13 @@ class App extends Component {
     const { data, axis } = this.state;
     return (
       <div>
-        <SearchBar/>
+        <SearchBar
+          change={(item) => this.setCompanyName(item)}
+        />
         <CompanyButton
           onClick={() => this.apiCalls('FB')}
         >
-          Facebook
-        </CompanyButton>
-        <CompanyButton
-          onClick={() => this.apiCalls('GOOGL')}
-        >
-          Google
-        </CompanyButton>
-        <CompanyButton
-          onClick={() => this.apiCalls('AMZN')}
-        >
-          Amazon
+          Go
         </CompanyButton>
         <Graph
           data={data}
