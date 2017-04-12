@@ -9,6 +9,8 @@ import * as d3 from "d3";
 
 const json = require("../data/apiKey.json");
 
+const companies = require("../data/Companies.json");
+
 const URL_BASE = 'https://www.quandl.com/api/v3/datasets/';
 const DATABASE_CODE = 'WIKI';
 const DATA_FORMAT = 'json';
@@ -32,12 +34,15 @@ class App extends Component {
       collapse: 'monthly',
       transform: 'none',
       company_name: '',
+      company_code: '',
+      search_message: 'Choose a company'
     }
 
     this.stockApiCall = this.stockApiCall.bind(this);
     this.setResult = this.setResult.bind(this);
     this.apiCalls = this.apiCalls.bind(this);
     this.setCompanyName = this.setCompanyName.bind(this);
+    this.getCompanyCode = this.getCompanyCode.bind(this);
   }
 
   componentWillMount() {
@@ -45,15 +50,21 @@ class App extends Component {
   }
 
   stockApiCall(company) {
-    const { apiKey, column, start_date, end_date, collapse, transform } = this.state
-    const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
-    console.log(url);
-    fetch(url)
-      .then(response => response.json())
-      .then(result => this.setResult(result));
+    if (company === null) {
+      this.setState({
+        search_
+      })
+    } else {
+      const { apiKey, column, start_date, end_date, collapse, transform } = this.state
+      const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(result => this.setResult(result));
+    }
   }
 
-  apiCalls(company = 'GOOGL') {
+  apiCalls() {
+    const company = this.getCompanyCode();
     this.stockApiCall(company);
   }
 
@@ -71,6 +82,18 @@ class App extends Component {
     this.setState({
       company_name: name
     });
+  }
+
+  getCompanyCode() {
+    const { company_name } = this.state;
+    let company_code = '';
+    for (let x in companies) {
+      if (companies[x]['name'] === company_name) {
+        company_code = companies[x]['code'];
+      }
+    }
+
+    return company_code === '' ? null : company_code;
   }
 
   setAxis() {
@@ -113,14 +136,16 @@ class App extends Component {
   }
 
   render() {
-    const { data, axis } = this.state;
+    const { data, axis, search_message } = this.state;
     return (
       <div>
         <SearchBar
           change={(item) => this.setCompanyName(item)}
-        />
+        >
+          {search_message}
+        </SearchBar>
         <CompanyButton
-          onClick={() => this.apiCalls('FB')}
+          onClick={() => this.apiCalls()}
         >
           Go
         </CompanyButton>

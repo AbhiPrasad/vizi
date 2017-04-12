@@ -63,6 +63,7 @@ class SearchBar extends Component {
 
   render() {
     const { value, suggestions } = this.state;
+    const { children } = this.props;
 
     const inputProps = {
       placeholder: 'Company',
@@ -72,7 +73,7 @@ class SearchBar extends Component {
 
     return (
       <div>
-        <label>Choose a company</label>
+        <label>{children}</label>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
