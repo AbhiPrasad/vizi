@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 import CompanyButton from './CompanyButton/CompanyButton';
 import Graph from './Graph/Graph';
@@ -6,6 +9,7 @@ import Info from './Info/Info';
 import SearchBar from './SearchBar/SearchBar';
 
 import * as d3 from "d3";
+import DatePicker from "react-datepicker";
 
 const json = require("../data/apiKey.json");
 
@@ -29,8 +33,8 @@ class App extends Component {
     this.state = {
       apiKey: json.apiKey,
       column: '4',
-      start_date: '2014-01-01',
-      end_date: '2014-12-31',
+      start_date: moment('2012-01-01'),
+      end_date: moment(),
       collapse: 'monthly',
       transform: 'none',
       company_name: 'Apple Inc.',
@@ -43,6 +47,8 @@ class App extends Component {
     this.apiCalls = this.apiCalls.bind(this);
     this.setCompanyName = this.setCompanyName.bind(this);
     this.getCompanyCode = this.getCompanyCode.bind(this);
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
   componentWillMount() {
@@ -59,7 +65,9 @@ class App extends Component {
         search_message: "Choose a company"
       });
       const { apiKey, column, start_date, end_date, collapse, transform } = this.state
-      const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
+      const start = start_date.format('LLLL');
+      const end = end_date.format('LLLL');
+      const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start}&${URL_END}=${end}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
       fetch(url)
         .then(response => response.json())
         .then(result => this.setResult(result));
@@ -84,6 +92,18 @@ class App extends Component {
   setCompanyName(name) {
     this.setState({
       company_name: name
+    });
+  }
+
+  handleChangeStart(date) {
+    this.setState({
+      start_date: date
+    });
+  }
+
+  handleChangeEnd(date) {
+    this.setState({
+      end_date: date
     });
   }
 
@@ -139,7 +159,7 @@ class App extends Component {
   }
 
   render() {
-    const { data, axis, search_message } = this.state;
+    const { data, axis, search_message, start_date, end_date } = this.state;
     return (
       <div>
         <SearchBar
@@ -147,6 +167,20 @@ class App extends Component {
         >
           {search_message}
         </SearchBar>
+        <div>
+          <DatePicker
+            selected={start_date}
+            selectsStart startDate={start_date}
+            endDate={end_date}
+            onChange={this.handleChangeStart}
+          />
+          <DatePicker
+            selected={end_date}
+            selectsEnd startDate={start_date}
+            endDate={end_date}
+            onChange={this.handleChangeEnd}
+          />
+        </div>
         <CompanyButton
           onClick={() => this.apiCalls()}
         >

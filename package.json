@@ -12,6 +12,7 @@
     "react-addons-transition-group": "^15.5.2",
     "react-autosuggest": "^9.0.0",
     "react-c3js": "^0.1.18",
+    "react-datepicker": "^0.44.0",
     "react-dom": "^15.5.3",
     "reactstrap": "^4.5.0"
   },
