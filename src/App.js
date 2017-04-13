@@ -33,7 +33,7 @@ class App extends Component {
       end_date: '2014-12-31',
       collapse: 'monthly',
       transform: 'none',
-      company_name: '',
+      company_name: 'Apple Inc.',
       company_code: '',
       search_message: 'Choose a company'
     }
@@ -52,9 +52,12 @@ class App extends Component {
   stockApiCall(company) {
     if (company === null) {
       this.setState({
-        search_
-      })
+        search_message: "Error"
+      });
     } else {
+      this.setState({
+        search_message: "Choose a company"
+      });
       const { apiKey, column, start_date, end_date, collapse, transform } = this.state
       const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start_date}&${URL_END}=${end_date}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
       fetch(url)
