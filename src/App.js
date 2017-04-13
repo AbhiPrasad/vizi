@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,6 +8,7 @@ import SearchBar from './SearchBar/SearchBar';
 import CollapseButton from './CollapseButton/CollapseButton';
 
 import * as d3 from "d3";
+import moment from 'moment';
 import DatePicker from "react-datepicker";
 
 const json = require("../data/apiKey.json");
@@ -25,7 +25,28 @@ const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
 
-const COLLAPSE_LIST = ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Annual'];
+const COLLAPSE_LIST = [
+  {
+    collapse: 'Daily',
+    objectID: 0,
+  },
+  {
+    collapse: 'Weekly',
+    objectID: 1,
+  },
+  {
+    collapse: 'Monthly',
+    objectID: 2,
+  },
+  {
+    collapse: 'Quarterly',
+    objectID: 3,
+  },
+  {
+    collapse: 'Annual',
+    objectID: 4,
+  },
+];
 
 class App extends Component {
 
@@ -41,7 +62,8 @@ class App extends Component {
       transform: 'none',
       company_name: 'Apple Inc.',
       company_code: '',
-      search_message: 'Choose a company'
+      search_message: 'Choose a company',
+      isLoading: false,
     }
 
     this.stockApiCall = this.stockApiCall.bind(this);
@@ -80,6 +102,9 @@ class App extends Component {
   apiCalls() {
     const company = this.getCompanyCode();
     this.stockApiCall(company);
+    this.setState({
+      isLoading: true
+    })
   }
 
   setData(date, close) {
@@ -144,6 +169,7 @@ class App extends Component {
     this.setState({
       data: this.formatDataset(result.dataset.data),
       axis: this.setAxis(),
+      isLoading: false,
     });
   }
 
@@ -163,13 +189,12 @@ class App extends Component {
 
   setCollapse(event) {
     this.setState({
-      collapse: event.currentTarget.textContent.toLowerCase()
+      collapse: event.currentTarget.textContent.toLowerCase(),
     });
-    this.apiCalls();
   }
 
   render() {
-    const { data, axis, search_message, start_date, end_date } = this.state;
+    const { data, axis, search_message, start_date, end_date, isLoading } = this.state;
     return (
       <div>
         <SearchBar
@@ -193,9 +218,14 @@ class App extends Component {
         </div>
         {COLLAPSE_LIST.map(item => {
           return (
-            <CollapseButton onClick={(evt) => this.setCollapse(evt)}>
-              {item}
-            </CollapseButton>
+            <div key={item.objectID}>
+              <CollapseButton
+                onClick={(evt) => this.setCollapse(evt)}
+                isLoading={isLoading}
+              >
+                {item.collapse}
+              </CollapseButton>
+            </div>
           );
         })
         }
