@@ -3,10 +3,10 @@ import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import CompanyButton from './CompanyButton/CompanyButton';
 import Graph from './Graph/Graph';
 import Info from './Info/Info';
 import SearchBar from './SearchBar/SearchBar';
+import CollapseButton from './CollapseButton/CollapseButton';
 
 import * as d3 from "d3";
 import DatePicker from "react-datepicker";
@@ -24,6 +24,8 @@ const URL_END = 'end_date';
 const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
+
+const COLLAPSE_LIST = ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Annual'];
 
 class App extends Component {
 
@@ -49,6 +51,7 @@ class App extends Component {
     this.getCompanyCode = this.getCompanyCode.bind(this);
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.setCollapse = this.setCollapse.bind(this);
   }
 
   componentWillMount() {
@@ -158,6 +161,13 @@ class App extends Component {
     return this.setData(date, close);
   }
 
+  setCollapse(event) {
+    this.setState({
+      collapse: event.currentTarget.textContent.toLowerCase()
+    });
+    this.apiCalls();
+  }
+
   render() {
     const { data, axis, search_message, start_date, end_date } = this.state;
     return (
@@ -181,11 +191,14 @@ class App extends Component {
             onChange={this.handleChangeEnd}
           />
         </div>
-        <CompanyButton
-          onClick={() => this.apiCalls()}
-        >
-          Go
-        </CompanyButton>
+        {COLLAPSE_LIST.map(item => {
+          return (
+            <CollapseButton onClick={(evt) => this.setCollapse(evt)}>
+              {item}
+            </CollapseButton>
+          );
+        })
+        }
         <Graph
           data={data}
           axis={axis}
