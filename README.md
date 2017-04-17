@@ -2,6 +2,8 @@
 
 > A finance app built with React and uses Quandl finance api
 
+![Picture of viewer](./Demo.png?raw=true "Picture")
+
 ## Dev
 
 ```
