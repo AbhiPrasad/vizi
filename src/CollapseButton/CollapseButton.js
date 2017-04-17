@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
+import './CollapseButton.css';
 
 const CollapseButton = ({ children, onClick, isLoading }) => {
     if (isLoading) {
@@ -7,7 +8,7 @@ const CollapseButton = ({ children, onClick, isLoading }) => {
             <Button
                 type="button"
                 onClick={onClick}
-                color="primary"
+                className="btn-go"
                 disabled
             >
                 {children}
@@ -18,7 +19,7 @@ const CollapseButton = ({ children, onClick, isLoading }) => {
             <Button
                 type="button"
                 onClick={onClick}
-                color="primary"
+                className="btn-go"
             >
                 {children}
             </Button>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Row, Col } from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
+import './RadioButtons.css';
 
 const COLLAPSE_LIST = [
     {
@@ -47,21 +48,19 @@ class RadioButtons extends Component {
 
     render() {
         return (
-            <div>
+            <div className="text-center">
                 <ButtonGroup>
                     {COLLAPSE_LIST.map(item => {
                         return (
-                            <Row key={item.objectID}>
-                                <Col className="text-center"> 
-                                <Button 
+                            <div key={item.objectID} className="collapse-btn">
+                                <Button
                                     color="primary"
                                     onClick={() => this.onRadioClick(item.collapse)}
                                     active={this.state.rSelected === item.collapse}
                                 >
                                     {item.collapse}
                                 </Button>
-                                </Col>
-                            </Row>
+                            </div>
                         );
                     })}
                 </ButtonGroup>

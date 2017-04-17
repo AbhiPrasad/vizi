@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import './App.css';
 
 import Header from './Header/Header';
 import Graph from './Graph/Graph';
@@ -10,7 +11,7 @@ import RadioButtons from './RadioButtons/RadioButtons';
 
 import * as d3 from "d3";
 import moment from 'moment';
-import { Container } from 'reactstrap';
+import { Container, Col } from 'reactstrap';
 
 const json = require("../data/apiKey.json");
 
@@ -52,6 +53,7 @@ class App extends Component {
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
     this.setCollapse = this.setCollapse.bind(this);
+    this.catchErr = this.catchErr.bind(this);
   }
 
   componentWillMount() {
@@ -73,8 +75,15 @@ class App extends Component {
       const url = `${URL_BASE}${DATABASE_CODE}/${company}.${DATA_FORMAT}?${URL_COLOMN}=${column}&${URL_START}=${start}&${URL_END}=${end}&${URL_COLLAPSE}=${collapse}&${URL_TRANSFORM}=${transform}&${URL_API}=${apiKey}`;
       fetch(url)
         .then(response => response.json())
-        .then(result => this.setResult(result));
+        .then(result => this.setResult(result))
+        .catch(err => this.catchErr(err));
     }
+  }
+
+  catchErr(err) {
+    this.setState({
+      isLoading: false
+    })
   }
 
   apiCalls() {
@@ -174,7 +183,7 @@ class App extends Component {
   render() {
     const { data, axis, start_date, end_date, isLoading } = this.state;
     return (
-      <Container fluid>
+      <Container>
         <Header
           setCompanyName={(item) => this.setCompanyName(item)}
         />
@@ -187,12 +196,16 @@ class App extends Component {
         <RadioButtons
           setCollapse={(newCollapse) => this.setCollapse(newCollapse)}
         />
-        <CollapseButton
-          onClick={() => this.apiCalls()}
-          isLoading={isLoading}
-        >
-          View
-        </CollapseButton>
+        <div className="text-center view-button">
+          <Col>
+          <CollapseButton
+            onClick={() => this.apiCalls()}
+            isLoading={isLoading}
+          >
+            Search
+          </CollapseButton>
+          </Col>
+        </div>
         <Graph
           data={data}
           axis={axis}

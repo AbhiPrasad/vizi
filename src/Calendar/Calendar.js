@@ -10,7 +10,8 @@ const Calendar = ({ start_date, end_date, handleChangeStart, handleChangeEnd }) 
     return (
         <Row className="cals">
             <Col
-                sm={{ size: 8, offset: 2 }}
+                sm={{ size: 4, offset: 1 }}
+                xs={{ size: 5, offset: 1 }}
                 className="text-center"
             >
             Start: <DatePicker
@@ -19,7 +20,11 @@ const Calendar = ({ start_date, end_date, handleChangeStart, handleChangeEnd }) 
                 endDate={end_date}
                 onChange={handleChangeStart}
             />
-            <span className="endstuff">End:</span> <DatePicker
+            </Col>
+            <Col
+                className="text-center"
+            >
+            End: <DatePicker
                 selected={end_date}
                 selectsEnd startDate={start_date}
                 endDate={end_date}

@@ -40,6 +40,7 @@ body {
 
 .react-autosuggest__suggestions-container--open {
   display: block;
+    width: 240px;
   position: absolute;
   border: 1px solid #aaa;
   background-color: #fff;
