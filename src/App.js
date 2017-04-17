@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Header from './Header/Header';
 import Graph from './Graph/Graph';
-import Info from './Info/Info';
-import SearchBar from './SearchBar/SearchBar';
-import CollapseButton from './CollapseButton/CollapseButton';
-import Calendar from './Calendar/Calendar';
-import RadioButtons from './RadioButtons/RadioButtons';
+import CollapseButton from './Settings/CollapseButton/CollapseButton';
+import Calendar from './Settings/Calendar/Calendar';
+import RadioButtons from './Settings/RadioButtons/RadioButtons';
 
 import * as d3 from "d3";
 import moment from 'moment';
+import { Container } from 'reactstrap';
 
 const json = require("../data/apiKey.json");
 
@@ -167,19 +167,17 @@ class App extends Component {
 
   setCollapse(newCollapse) {
     this.setState({
-      collapse: newCollapse,
+      collapse: newCollapse.toLowerCase(),
     });
   }
 
   render() {
-    const { data, axis, search_message, start_date, end_date, isLoading } = this.state;
+    const { data, axis, start_date, end_date, isLoading } = this.state;
     return (
-      <div>
-        <SearchBar
-          change={(item) => this.setCompanyName(item)}
-        >
-          {search_message}
-        </SearchBar>
+      <Container fluid>
+        <Header
+          setCompanyName={(item) => this.setCompanyName(item)}
+        />
         <Calendar
           start_date={start_date}
           end_date={end_date}
@@ -199,8 +197,7 @@ class App extends Component {
           data={data}
           axis={axis}
         />
-        <Info />
-      </div>
+      </Container>
     );
   }
 }

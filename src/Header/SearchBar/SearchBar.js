@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
 import './SearchBar.css';
+import FontAwesome from 'react-fontawesome';
 
-const companies = require("../../data/Companies.json");
+const companies = require("../../../data/Companies.json");
 
 const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
@@ -63,7 +64,6 @@ class SearchBar extends Component {
 
   render() {
     const { value, suggestions } = this.state;
-    const { children } = this.props;
 
     const inputProps = {
       placeholder: 'Company',
@@ -73,7 +73,10 @@ class SearchBar extends Component {
 
     return (
       <div>
-        <label>{children}</label>
+         <FontAwesome
+          name="search"
+          className="search-icon"
+        />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

@@ -2,8 +2,16 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
+.search-icon {
+  position: absolute;
+  padding-left: 4px;
+  padding-top: 6px;
+}
+
 .react-autosuggest__container {
   position: relative;
+  float:left;
+  padding-left: 1.5em;
 }
 
 .react-autosuggest__input {
