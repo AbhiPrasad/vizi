@@ -7,6 +7,7 @@ import Info from './Info/Info';
 import SearchBar from './SearchBar/SearchBar';
 import CollapseButton from './CollapseButton/CollapseButton';
 import Calendar from './Calendar/Calendar';
+import RadioButtons from './RadioButtons/RadioButtons';
 
 import * as d3 from "d3";
 import moment from 'moment';
@@ -24,29 +25,6 @@ const URL_END = 'end_date';
 const URL_COLLAPSE = 'collapse';
 const URL_TRANSFORM = 'transform';
 const URL_API = 'api_key';
-
-const COLLAPSE_LIST = [
-  {
-    collapse: 'Daily',
-    objectID: 0,
-  },
-  {
-    collapse: 'Weekly',
-    objectID: 1,
-  },
-  {
-    collapse: 'Monthly',
-    objectID: 2,
-  },
-  {
-    collapse: 'Quarterly',
-    objectID: 3,
-  },
-  {
-    collapse: 'Annual',
-    objectID: 4,
-  },
-];
 
 class App extends Component {
 
@@ -187,9 +165,9 @@ class App extends Component {
     return this.setData(date, close);
   }
 
-  setCollapse(event) {
+  setCollapse(newCollapse) {
     this.setState({
-      collapse: event.currentTarget.textContent.toLowerCase(),
+      collapse: newCollapse,
     });
   }
 
@@ -208,12 +186,15 @@ class App extends Component {
           handleChangeStart={this.handleChangeStart}
           handleChangeEnd={this.handleChangeEnd}
         />
+        <RadioButtons
+          setCollapse={(newCollapse) => this.setCollapse(newCollapse)}
+        />
         <CollapseButton
           onClick={() => this.apiCalls()}
           isLoading={isLoading}
         >
           View
-              </CollapseButton>
+        </CollapseButton>
         <Graph
           data={data}
           axis={axis}
