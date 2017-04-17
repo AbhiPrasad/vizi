@@ -4,9 +4,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import Header from './Header/Header';
 import Graph from './Graph/Graph';
-import CollapseButton from './Settings/CollapseButton/CollapseButton';
-import Calendar from './Settings/Calendar/Calendar';
-import RadioButtons from './Settings/RadioButtons/RadioButtons';
+import CollapseButton from './CollapseButton/CollapseButton';
+import Calendar from './Calendar/Calendar';
+import RadioButtons from './RadioButtons/RadioButtons';
 
 import * as d3 from "d3";
 import moment from 'moment';

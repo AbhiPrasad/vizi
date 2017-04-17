@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup, Row, Col } from 'reactstrap';
 
 const COLLAPSE_LIST = [
     {
@@ -51,7 +51,8 @@ class RadioButtons extends Component {
                 <ButtonGroup>
                     {COLLAPSE_LIST.map(item => {
                         return (
-                            <div key={item.objectID}>
+                            <Row key={item.objectID}>
+                                <Col className="text-center"> 
                                 <Button 
                                     color="primary"
                                     onClick={() => this.onRadioClick(item.collapse)}
@@ -59,7 +60,8 @@ class RadioButtons extends Component {
                                 >
                                     {item.collapse}
                                 </Button>
-                            </div>
+                                </Col>
+                            </Row>
                         );
                     })}
                 </ButtonGroup>

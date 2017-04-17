@@ -1,0 +1,18 @@
+.cals {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.react-datepicker__input-container input {
+  height: 30px;
+  padding: 10px 10px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.endstuff {
+    padding-left: 6em;
+}

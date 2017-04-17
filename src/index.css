@@ -5,3 +5,8 @@
 .btn {
     cursor: pointer;
 }
+
+body {
+    font-family: Helvetica, sans-serif !important;
+    font-weight: 300 !important;
+}
