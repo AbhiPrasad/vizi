@@ -6,10 +6,10 @@ import Graph from './Graph/Graph';
 import Info from './Info/Info';
 import SearchBar from './SearchBar/SearchBar';
 import CollapseButton from './CollapseButton/CollapseButton';
+import Calendar from './Calendar/Calendar';
 
 import * as d3 from "d3";
 import moment from 'moment';
-import DatePicker from "react-datepicker";
 
 const json = require("../data/apiKey.json");
 
@@ -202,33 +202,18 @@ class App extends Component {
         >
           {search_message}
         </SearchBar>
-        <div>
-          <DatePicker
-            selected={start_date}
-            selectsStart startDate={start_date}
-            endDate={end_date}
-            onChange={this.handleChangeStart}
-          />
-          <DatePicker
-            selected={end_date}
-            selectsEnd startDate={start_date}
-            endDate={end_date}
-            onChange={this.handleChangeEnd}
-          />
-        </div>
-        {COLLAPSE_LIST.map(item => {
-          return (
-            <div key={item.objectID}>
-              <CollapseButton
-                onClick={(evt) => this.setCollapse(evt)}
-                isLoading={isLoading}
-              >
-                {item.collapse}
+        <Calendar
+          start_date={start_date}
+          end_date={end_date}
+          handleChangeStart={this.handleChangeStart}
+          handleChangeEnd={this.handleChangeEnd}
+        />
+        <CollapseButton
+          onClick={() => this.apiCalls()}
+          isLoading={isLoading}
+        >
+          View
               </CollapseButton>
-            </div>
-          );
-        })
-        }
         <Graph
           data={data}
           axis={axis}
